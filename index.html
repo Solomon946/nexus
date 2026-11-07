@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NexusRoute AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="contours" aria-hidden="true"></div>
+<aside id="side" class="glass">
+  <div class="brand"><span class="logo">◎</span><b>NexusRoute AI</b></div>
+  <nav id="nav" aria-label="Main">
+    <small>Overview</small>
+    <button data-view="dashboard" data-roles="admin,dispatcher"><i>▦</i><span>Dashboard</span></button>
+    <button data-view="suggestions" data-roles="admin,dispatcher"><i>✦</i><span>AI Suggestions</span></button>
+    <small>Operations</small>
+    <button data-view="network" data-roles="admin,dispatcher"><i>⛟</i><span>Live Network</span></button>
+    <button data-view="shipments" data-roles="admin,dispatcher,driver,customer"><i>▤</i><span>Shipments</span></button>
+  </nav>
+  <label class="role">Demo role
+    <select id="role"><option value="admin">Super Admin</option><option value="dispatcher">Dispatcher</option><option value="driver">Driver</option><option value="customer">Customer</option></select>
+  </label>
+</aside>
+<main>
+  <header class="glass">
+    <button id="collapse" aria-label="Collapse sidebar">☰</button>
+    <input id="q" type="search" placeholder="Search shipments and drivers" aria-label="Search">
+    <span class="ai"><i></i>AI engine: demo mode</span>
+    <button id="theme" aria-label="Toggle theme">◐</button>
+    <button id="bell" aria-label="Notifications">🔔<em id="badge">0</em></button>
+  </header>
+
+  <section id="v-dashboard" class="view">
+    <p class="demo">Tagline: Intelligence in motion. Precision in every route. All metrics below are simulated demo data.</p>
+    <div id="kpis" class="grid"></div>
+    <div class="split">
+      <div class="card glass mapcard">
+        <div class="bar">
+          <select id="mtype" aria-label="Map type"><option value="roadmap">Road</option><option value="satellite">Satellite</option><option value="hybrid">Hybrid</option><option value="terrain">Terrain</option></select>
+          <button id="mtraffic">Traffic: off</button>
+          <button id="mdrivers">Drivers: on</button>
+          <button id="mkey">Maps key</button>
+          <button id="opt" class="primary">Optimize routes with AI</button>
+        </div>
+        <div id="map"></div><div id="scan"></div>
+      </div>
+      <div class="card glass" id="result"><h3>Route comparison</h3><p class="mut">Run the optimizer to compare the dispatch order with a re-sequenced route. The optimizer is a local demo heuristic (nearest-neighbour + 2-opt), not a live AI or live-traffic service.</p></div>
+    </div>
+  </section>
+
+  <section id="v-suggestions" class="view">
+    <h2>AI Suggestions</h2><p class="mut">Intelligent recommendations to improve fleet performance. Demo content.</p>
+    <div class="bar"><select id="sprio"><option value="">All priorities</option><option>High</option><option>Medium</option><option>Low</option></select><button id="srefresh">Refresh insights</button></div>
+    <div id="sugs" class="grid"></div>
+    <h3>Suggested action history</h3><ul id="hist" class="hist"></ul>
+  </section>
+
+  <section id="v-network" class="view">
+    <h2>Live Network Activity</h2>
+    <div class="split even">
+      <div class="card glass"><h3>Active drivers</h3><div class="bar"><select id="dstat"></select></div><div id="drivers" class="list"></div></div>
+      <div class="card glass"><h3>Active customers</h3><div class="bar"><select id="ustat"></select></div><div id="users" class="list"></div></div>
+    </div>
+  </section>
+
+  <section id="v-shipments" class="view">
+    <h2>Shipments</h2>
+    <div class="bar"><select id="sstat"></select><select id="ssort"><option value="id">Sort: ID</option><option value="prio">Sort: priority</option><option value="status">Sort: status</option></select><button id="snew" class="primary">New shipment</button></div>
+    <div class="card glass tbl"><table><thead><tr><th>ID</th><th>Customer</th><th>Address</th><th>Driver</th><th>Priority</th><th>Status</th><th></th></tr></thead><tbody id="ship"></tbody></table></div>
+  </section>
+</main>
+
+<div id="npanel" class="glass" hidden><div class="bar"><b>Notifications</b><button id="nread">Mark all read</button><button id="nclear">Clear all</button></div><ul id="nlist"></ul></div>
+
+<button id="fab" class="primary" aria-label="Open AI assistant">AI</button>
+<div id="chat" class="glass" hidden>
+  <div class="bar"><b>Logistics assistant</b><span class="mut">simulated</span></div>
+  <div id="msgs" aria-live="polite"></div>
+  <div class="chips"><button>Which drivers are currently available?</button><button>Which deliveries may be delayed?</button><button>Optimize delivery routes based on current traffic.</button><button>How can we reduce fuel consumption today?</button></div>
+  <form id="cform"><input id="cin" placeholder="Ask about routes, drivers, delays" aria-label="Message"><button class="primary">Send</button></form>
+</div>
+
+<dialog id="dlg" class="glass"><form id="sform" method="dialog" novalidate>
+  <h3>New shipment</h3>
+  <label>Customer name<input id="fname" required minlength="2"></label>
+  <label>Delivery address<select id="fstop"></select></label>
+  <label>Priority<select id="fprio"><option>Medium</option><option>High</option><option>Low</option></select></label>
+  <p id="ferr" class="err" role="alert"></p>
+  <div class="bar"><button type="button" id="fcancel">Cancel</button><button class="primary">Create shipment</button></div>
+</form></dialog>
+<div id="toasts" aria-live="polite"></div>
+
+<script src="route-optimizer.js"></script>
+<script src="map.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
